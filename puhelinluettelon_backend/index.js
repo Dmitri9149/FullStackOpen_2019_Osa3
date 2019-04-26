@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 let persons = [
   {
@@ -55,6 +58,40 @@ app.delete('/api/persons/:id', (request, response) => {
   persons = persons.filter(person => person.id !== id)
 
   response.status(204).end()
+})
+
+const generateId = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+
+
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  console.log(request.body)
+  const isItNewName = persons.find(person => person.name === body.name)
+  console.log(!body.name)
+
+  if (!body.name) {
+    return response.status(400).json({error: 'name = undefined'})
+  } else if (!body.number) {
+    return response.status(400).json({error:"number = undefined"})
+  }  
+
+  if(isItNewName) {
+    return response.status(400).json({error:'name must be unique'})
+  } 
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(100000000000000000000)
+  }
+
+  persons = persons.concat(person)
+
+  response.json(person)
 })
 
 
