@@ -31,6 +31,15 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+app.get('/info', (req, res) => {
+  const size= persons.length;
+  
+  res.send(`<div>Puhelinluetelossa ${size}  henkilön tiedot</div>`);
+  
+  console.log(`Server sends size as  ${size}`)
+})
+
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
