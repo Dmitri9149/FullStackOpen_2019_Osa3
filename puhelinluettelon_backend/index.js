@@ -73,9 +73,8 @@ const generateId = (max) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  console.log(request.body)
   const isItNewName = persons.find(person => person.name === body.name)
-  console.log(!body.name)
+  
 
   if (!body.name) {
     return response.status(400).json({error: 'name = undefined'})
